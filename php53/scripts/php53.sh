@@ -48,14 +48,6 @@ echo "<?php phpinfo();"  > /var/www/index.php
 #Quick fix of AllowOverride on /var/www
 perl -pi -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default
 
-echo "# Notification for Release Upgrades: never"
-sudo sed -i 's/Prompt=.*/Prompt=never/g' /etc/update-manager/release-upgrades
-
-if [[ $PACKER_BUILD_NAME != vagrant* ]]; then
-	apt-get -y install xubuntu-desktop 
-	apt-get -y install dkms virtualbox-guest-dkms
-fi
-
 
 
 

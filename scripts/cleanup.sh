@@ -1,5 +1,8 @@
 #!/bin/bash
 
+echo "# Notification for Release Upgrades: never"
+sudo sed -i 's/Prompt=.*/Prompt=never/g' /etc/update-manager/release-upgrades
+
 # Removing leftover leases and persistent rules
 echo "cleaning up dhcp leases"
 rm /var/lib/dhcp/*

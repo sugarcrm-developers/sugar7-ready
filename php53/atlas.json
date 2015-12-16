@@ -11,61 +11,25 @@
         {
             "type": "shell",
             "scripts": [
-                "scripts/base.sh",
-                "scripts/virtualbox.sh",
-                "scripts/vmware.sh",
-                "scripts/vagrant.sh",
-                "scripts/dep.sh",
-                "scripts/cleanup.sh",
-                "scripts/zerodisk.sh"
+                "../scripts/base.sh",
+                "../scripts/virtualbox.sh",
+                "../scripts/vmware.sh",
+                "../scripts/vagrant.sh",
+                "scripts/php53.sh",
+                "../scripts/cleanup.sh",
+                "../scripts/zerodisk.sh"
             ],
             "override": {
-                "sugar7-php53-ubuntu": {
-                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
-                },
                 "vagrant-vbox": {
-                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                    "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
                 },
                 "vagrant-vmware": {
-                    "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
+                    "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
                 }
             }
         }
     ],
     "builders": [
-        {
-            "name": "sugar7-php53-ubuntu",
-            "type": "virtualbox-iso",
-            "boot_command": [
-                "<esc><esc><enter><wait>",
-                "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-gui.cfg ",
-                "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
-                "hostname={{ .Name }} ",
-                "fb=false debconf/frontend=noninteractive ",
-                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
-                "initrd=/install/initrd.gz -- <enter>"
-            ],
-            "headless": true,
-            "boot_wait": "10s",
-            "disk_size": 40960,
-            "guest_os_type": "Ubuntu_64",
-            "http_directory": "http",
-            "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
-            "iso_checksum_type": "sha256",
-            "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
-            "ssh_username": "dev",
-            "ssh_password": "dev",
-            "ssh_port": 22,
-            "ssh_wait_timeout": "10000s",
-            "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'dev'|sudo -S bash 'shutdown.sh'",
-            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-            "virtualbox_version_file": ".vbox_version",
-              "vboxmanage": [
-                ["modifyvm", "{{.Name}}", "--memory", "4096"],
-                ["modifyvm", "{{.Name}}", "--cpus", "2"],
-                ["modifyvm", "{{.Name}}", "--vram", "32"]
-              ]
-        },
         {
             "name": "vagrant-vbox",
             "type": "virtualbox-iso",
@@ -82,7 +46,7 @@
             "boot_wait": "10s",
             "disk_size": 20480,
             "guest_os_type": "Ubuntu_64",
-            "http_directory": "http",
+            "http_directory": "../http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
             "iso_checksum_type": "sha256",
             "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
@@ -110,7 +74,7 @@
             "disk_size": 20480,
             "guest_os_type": "Ubuntu-64",
             "headless": true,
-            "http_directory": "http",
+            "http_directory": "../http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
             "iso_checksum_type": "sha256",
             "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
@@ -128,14 +92,7 @@
             "output":"sugar7-php53_{{.Provider}}.box",
             "type": "vagrant",
             "vagrantfile_template": "Vagrantfile",
-            "keep_input_artifact": false,
-            "except":["sugar7-php53-ubuntu"]
-        },
-        {
-            "type": "atlas",
-            "only": ["sugar7-php53-ubuntu"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "virtualbox.image"
+            "keep_input_artifact": false
         },
         {
             "type": "atlas",
