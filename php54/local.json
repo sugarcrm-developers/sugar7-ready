@@ -1,12 +1,4 @@
 {
-    "push": {
-      "name": "mmarum/sugar7-ready",
-      "vcs": true
-    },
-    "variables": {
-        "atlas_username": "{{env `ATLAS_USERNAME`}}",
-        "atlas_name": "{{env `ATLAS_NAME`}}"
-    },
     "provisioners": [
         {
             "type": "shell",
@@ -20,10 +12,10 @@
                 "scripts/zerodisk.sh"
             ],
             "override": {
-                "virtualbox-iso": {
+                "virtualbox": {
                     "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
                 },
-                "vmware-iso": {
+                "vmware": {
                     "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
                 }
             }
@@ -31,7 +23,7 @@
     ],
     "builders": [
         {
-            "type": "virtualbox-iso",
+            "type": "virtualbox",
             "boot_command": [
                 "<esc><esc><enter><wait>",
                 "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -43,7 +35,7 @@
             ],
             "headless": true,
             "boot_wait": "10s",
-            "disk_size": 30720,
+            "disk_size": 81620,
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
@@ -58,7 +50,7 @@
             "virtualbox_version_file": ".vbox_version"
         },
         {
-            "type": "vmware-iso",
+            "type": "vmware",
             "boot_command": [
                 "<esc><esc><enter><wait>",
                 "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -69,7 +61,7 @@
                 "initrd=/install/initrd.gz -- <enter>"
             ],
             "boot_wait": "10s",
-            "disk_size": 30720,
+            "disk_size": 81620,
             "guest_os_type": "Ubuntu-64",
             "headless": true,
             "http_directory": "http",
@@ -87,35 +79,9 @@
     ],
     "post-processors": [
         [{
-            "output":"sugar7-ready_{{.Provider}}.box",
+            "output":"sugar7-php54_{{.Provider}}.box",
             "type": "vagrant",
             "keep_input_artifact": true
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "virtualbox.image"
-        },
-        {
-            "type": "atlas",
-            "only": ["vmware-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "vmware_desktop",
-                "version": "0.0.1"
-            }
-        },
-        {
-            "type": "atlas",
-            "only": ["virtualbox-iso"],
-            "artifact": "{{user `atlas_username`}}/{{user `atlas_name`}}",
-            "artifact_type": "vagrant.box",
-            "metadata": {
-                "provider": "virtualbox",
-                "version": "0.0.1"
-            }
-        }]
+        },]
     ]
 }
