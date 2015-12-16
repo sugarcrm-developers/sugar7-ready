@@ -2,13 +2,14 @@
 #
 # Setup the the box. This runs as root
 
+apt-get -y update
 # You can install anything you need here.
 
 # MySQL default username and password is "root"
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get -y install python-software-properties perl curl unzip vim php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5-memcached memcached php5 apache2 php5-curl php5-devel php5-xdebug
+apt-get -y install python-software-properties perl curl unzip vim php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5-memcached memcached php5 apache2 php5-curl php5-dev php5-xdebug
 
 #Setup more required repos
 add-apt-repository ppa:webupd8team/java -y
