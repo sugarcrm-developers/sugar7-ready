@@ -1,5 +1,5 @@
 *.DS_Store
-
+output-*
 # Cache objects
 packer_cache/
 

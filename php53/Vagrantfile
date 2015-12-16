@@ -12,6 +12,10 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 9200, host: 9300
   config.vm.network "forwarded_port", guest: 3306, host: 9306
 
+  #Symbolically link default share of Vagrant directory to web root
+  config.vm.provision "shell", inline: "ln -s /vagrant /var/www/vagrant"
+  
+
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is

@@ -2,8 +2,6 @@
 #
 # Setup the the box. This runs as root
 
-echo debconf debconf/frontend select Noninteractive | debconf-set-selections
-
 add-apt-repository ppa:webupd8team/java -y
 
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
@@ -25,11 +23,27 @@ apt-get -y install elasticsearch
 echo "Setting up Elasticsearch as a service"
 update-rc.d elasticsearch defaults 95 10
 
-echo "Updating php.ini files with reasonable Sugar defaults"
 # Update apache2 php.ini
-perl -pi -e 's/memory_limit = 128M/memory_limit = 512M/g' /etc/php5/apache2/php.ini
-perl -pi -e 's/upload_max_filesize = 2M/upload_max_filesize = 20M/g' /etc/php5/apache2/php.ini
+sed -i 's/memory_limit = 128M/memory_limit = 512M/' /etc/php5/apache2/php.ini
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php5/apache2/php.ini
+sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/apache2/php.ini
 
 # Update cli php.ini for cron
-perl -pi -e 's/;date.timezone =/date.timezone = UTC/g' /etc/php5/cli/php.ini
+sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
+
+
+# Change Apache to run as current user to avoid permissions issues
+sed -i "s/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=$USER/" /etc/apache2/envvars
+sed -i "s/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=$USER/" /etc/apache2/envvars
+
+
+# Add phpinfo to root
+echo "<?php phpinfo();"  > /var/www/index.php
+
+#Quick fix of AllowOverride on /var/www
+perl -pi -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default
+
+
+
+
 

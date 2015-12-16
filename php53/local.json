@@ -1,4 +1,5 @@
 {
+
     "provisioners": [
         {
             "type": "shell",
@@ -12,10 +13,13 @@
                 "scripts/zerodisk.sh"
             ],
             "override": {
-                "virtualbox": {
+                "sugar7-php53-ubuntu": {
+                    "execute_command": "echo 'dev'|sudo -S bash '{{.Path}}'"
+                },
+                "vagrant-vbox": {
                     "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
                 },
-                "vmware": {
+                "vagrant-vmware": {
                     "execute_command": "echo 'vagrant'|sudo -S bash '{{.Path}}'"
                 }
             }
@@ -23,7 +27,40 @@
     ],
     "builders": [
         {
-            "type": "virtualbox",
+            "name": "sugar7-php53-ubuntu",
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<esc><esc><enter><wait>",
+                "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-gui.cfg ",
+                "debian-installer=en_US auto locale=en_US kbd-chooser/method=us ",
+                "hostname={{ .Name }} ",
+                "fb=false debconf/frontend=noninteractive ",
+                "keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA console-setup/ask_detect=false ",
+                "initrd=/install/initrd.gz -- <enter>"
+            ],
+            "headless": true,
+            "boot_wait": "10s",
+            "disk_size": 40960,
+            "guest_os_type": "Ubuntu_64",
+            "http_directory": "http",
+            "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
+            "iso_checksum_type": "sha256",
+            "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
+            "ssh_username": "dev",
+            "ssh_password": "dev",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'dev'|sudo -S bash 'shutdown.sh'",
+            "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+            "virtualbox_version_file": ".vbox_version",
+              "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "4096"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"]
+              ]
+        },
+        {
+            "name": "vagrant-vbox",
+            "type": "virtualbox-iso",
             "boot_command": [
                 "<esc><esc><enter><wait>",
                 "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -35,7 +72,7 @@
             ],
             "headless": true,
             "boot_wait": "10s",
-            "disk_size": 81620,
+            "disk_size": 20480,
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
@@ -50,7 +87,8 @@
             "virtualbox_version_file": ".vbox_version"
         },
         {
-            "type": "vmware",
+            "name": "vagrant-vmware",
+            "type": "vmware-iso",
             "boot_command": [
                 "<esc><esc><enter><wait>",
                 "/install/vmlinuz noapic preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg ",
@@ -61,7 +99,7 @@
                 "initrd=/install/initrd.gz -- <enter>"
             ],
             "boot_wait": "10s",
-            "disk_size": 81620,
+            "disk_size": 20480,
             "guest_os_type": "Ubuntu-64",
             "headless": true,
             "http_directory": "http",
@@ -79,9 +117,11 @@
     ],
     "post-processors": [
         [{
-            "output":"sugar7-php54_{{.Provider}}.box",
+            "output":"sugar7-php53_{{.Provider}}.box",
             "type": "vagrant",
-            "keep_input_artifact": true
-        },]
+            "vagrantfile_template": "Vagrantfile",
+            "keep_input_artifact": false,
+            "except" : ["sugar7-php53-ubuntu"]
+        }]
     ]
 }
