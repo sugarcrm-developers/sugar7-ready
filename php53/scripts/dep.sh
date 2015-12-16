@@ -2,10 +2,6 @@
 #
 # Setup the the box. This runs as root
 
-add-apt-repository ppa:webupd8team/java -y
-
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee -a /etc/apt/sources.list
 apt-get -y update
 # You can install anything you need here.
 
@@ -13,7 +9,16 @@ apt-get -y update
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get -y install python-software-properties perl curl unzip vim php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5-memcached memcached php5 apache2 php5-curl php5-dev php5-xdebug
+apt-get -y install python-software-properties perl curl unzip vim mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5 apache2 php5-curl php5-dev php5-xdebug
+
+# Load Java and Elasticsearch repos
+
+add-apt-repository ppa:webupd8team/java -y
+
+wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
+echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee -a /etc/apt/sources.list
+
+apt-get -y update
 
 # Auto-accept oracle license
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
@@ -43,6 +48,13 @@ echo "<?php phpinfo();"  > /var/www/index.php
 #Quick fix of AllowOverride on /var/www
 perl -pi -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default
 
+echo "# Notification for Release Upgrades: never"
+sudo sed -i 's/Prompt=.*/Prompt=never/g' /etc/update-manager/release-upgrades
+
+if [[ $PACKER_BUILD_NAME != vagrant* ]]; then
+	apt-get -y install xubuntu-desktop 
+	apt-get -y install dkms virtualbox-guest-dkms
+fi
 
 
 
