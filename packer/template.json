@@ -43,7 +43,7 @@
             ],
             "headless": true,
             "boot_wait": "10s",
-            "disk_size": 20480,
+            "disk_size": 81620,
             "guest_os_type": "Ubuntu_64",
             "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
@@ -55,7 +55,11 @@
             "ssh_wait_timeout": "10000s",
             "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
             "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
-            "virtualbox_version_file": ".vbox_version"
+            "virtualbox_version_file": ".vbox_version",
+            "vboxmanage": [
+              ["modifyvm", "{{.Name}}", "--memory", "3072"],
+              ["modifyvm", "{{.Name}}", "--cpus", "2"]
+            ]
         },
         {
             "type": "vmware-iso",
@@ -69,7 +73,7 @@
                 "initrd=/install/initrd.gz -- <enter>"
             ],
             "boot_wait": "10s",
-            "disk_size": 20480,
+            "disk_size": 81620,
             "guest_os_type": "Ubuntu-64",
             "headless": true,
             "http_directory": "http",
