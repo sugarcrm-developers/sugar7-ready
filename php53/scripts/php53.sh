@@ -35,12 +35,12 @@ echo "Setting up Elasticsearch as a service"
 update-rc.d elasticsearch defaults 95 10
 
 # Update apache2 php.ini
-sed -i 's/memory_limit = 128M/memory_limit = 512M/' /etc/php5/apache2/php.ini
-sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php5/apache2/php.ini
-sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/apache2/php.ini
+sed -i 's/memory_limit = 128M/memory_limit = 512M/' /etc/php53/apache2/php.ini
+sed -i 's/upload_max_filesize = 2M/upload_max_filesize = 20M/' /etc/php53/apache2/php.ini
+sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php53/apache2/php.ini
 
 # Update cli php.ini for cron
-sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
+sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php53/cli/php.ini
 
 
 
