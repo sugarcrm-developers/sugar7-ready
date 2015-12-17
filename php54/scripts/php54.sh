@@ -43,17 +43,5 @@ sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/apache2/php.ini
 sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
 
 
-# Change Apache to run as current user to avoid permissions issues
-sed -i "s/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=$USER/" /etc/apache2/envvars
-sed -i "s/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=$USER/" /etc/apache2/envvars
-
-
-# Add phpinfo to root
-echo "<?php phpinfo();"  > /var/www/index.php
-
-#Quick fix of AllowOverride on /var/www
-perl -pi -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default
-
-
 
 

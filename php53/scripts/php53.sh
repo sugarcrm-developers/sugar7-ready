@@ -9,16 +9,22 @@ apt-get -y update
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get -y install python-software-properties perl curl unzip vim mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5 apache2 php5-curl php5-dev php5-xdebug
-
-# Load Java and Elasticsearch repos
-
-add-apt-repository ppa:webupd8team/java -y
+apt-get -y install python-software-properties
 
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee -a /etc/apt/sources.list
 
+#PHP 5.3.25+ libs
+add-apt-repository ppa:sergey-dryabzhinsky/packages -y
+add-apt-repository ppa:sergey-dryabzhinsky/php53 -y
+add-apt-repository ppa:webupd8team/java -y
+
 apt-get -y update
+
+apt-get -y install perl curl unzip vim apache2 mysql-server php53-apache2 php53-cli php53-mod-imap php53-mod-mysql php53-mod-curl php53-mod-gd php53-mod-bcmath php53-pecl
+a2enmod php53
+
+# Load Java and Elasticsearch repos
 
 # Auto-accept oracle license
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
@@ -35,18 +41,6 @@ sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/apache2/php.ini
 
 # Update cli php.ini for cron
 sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
-
-
-# Change Apache to run as current user to avoid permissions issues
-sed -i "s/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=$USER/" /etc/apache2/envvars
-sed -i "s/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=$USER/" /etc/apache2/envvars
-
-
-# Add phpinfo to root
-echo "<?php phpinfo();"  > /var/www/index.php
-
-#Quick fix of AllowOverride on /var/www
-perl -pi -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/sites-enabled/000-default
 
 
 

@@ -5,11 +5,12 @@
             "type": "shell",
             "scripts": [
                 "../scripts/base.sh",
+                "../scripts/gui.sh",
                 "../scripts/virtualbox.sh",
                 "../scripts/vmware.sh",
                 "../scripts/vagrant.sh",
                 "scripts/php54.sh",
-                "../scripts/gui.sh",
+                "../scripts/apache22.sh",
                 "../scripts/cleanup.sh",
                 "../scripts/zerodisk.sh"
             ],
