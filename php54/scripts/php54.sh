@@ -21,7 +21,7 @@ echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee
 apt-get -y update
 
 # Install Apache+php54 stack
-apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-apc php5-ldap php5 apache2 php5-curl php5-dev php5-xdebug
+apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-apc php5 apache2 php5-curl php5-dev php5-xdebug
 
 #Install Elasticsearch and Java
 
