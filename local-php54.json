@@ -4,18 +4,19 @@
         {
             "type": "shell",
             "scripts": [
-                "../scripts/base.sh",
-                "../scripts/gui.sh",
-                "../scripts/virtualbox.sh",
-                "../scripts/vmware.sh",
-                "../scripts/vagrant.sh",
-                "scripts/php53.sh",
-                "../scripts/apache22.sh",
-                "../scripts/cleanup.sh",
-                "../scripts/zerodisk.sh"
+                "scripts/base.sh",
+                "scripts/gui.sh",
+                "scripts/virtualbox.sh",
+                "scripts/vmware.sh",
+                "scripts/vagrant.sh",
+                "php54/scripts/php54.sh",
+                "scripts/apache22.sh",
+                "scripts/desktop.sh",
+                "scripts/cleanup.sh",
+                "scripts/zerodisk.sh"
             ],
             "override": {
-                "sugar7-php53-ubuntu": {
+                "sugar7-php54-ubuntu": {
                     "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
                 },
                 "vagrant-vbox": {
@@ -29,7 +30,7 @@
     ],
     "builders": [
         {
-            "name": "sugar7-php53-ubuntu",
+            "name": "sugar7-php54-ubuntu",
             "type": "virtualbox-iso",
             "boot_command": [
                 "<esc><esc><enter><wait>",
@@ -44,7 +45,7 @@
             "boot_wait": "10s",
             "disk_size": 40960,
             "guest_os_type": "Ubuntu_64",
-            "http_directory": "../http",
+            "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
             "iso_checksum_type": "sha256",
             "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
@@ -77,7 +78,7 @@
             "boot_wait": "10s",
             "disk_size": 20480,
             "guest_os_type": "Ubuntu_64",
-            "http_directory": "../http",
+            "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
             "iso_checksum_type": "sha256",
             "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
@@ -105,7 +106,7 @@
             "disk_size": 20480,
             "guest_os_type": "Ubuntu-64",
             "headless": true,
-            "http_directory": "../http",
+            "http_directory": "http",
             "iso_checksum": "af224223de99e2a730b67d7785b657f549be0d63221188e105445f75fb8305c9",
             "iso_checksum_type": "sha256",
             "iso_url": "http://releases.ubuntu.com/precise/ubuntu-12.04.5-server-amd64.iso",
@@ -120,16 +121,16 @@
     ],
     "post-processors": [
         [{
-            "output":"sugar7-php53_{{.Provider}}.box",
+            "output":"sugar7-php54_{{.Provider}}.box",
             "type": "vagrant",
-            "vagrantfile_template": "Vagrantfile",
+            "vagrantfile_template": "templates/Vagrantfile",
             "keep_input_artifact": false,
-            "except" : ["sugar7-php53-ubuntu"]
+            "except" : ["sugar7-php54-ubuntu"]
         },
         {
             "type": "compress",
             "output": "{{.BuildName}}.zip",
-            "only" : ["sugar7-php53-ubuntu"]
+            "only" : ["sugar7-php54-ubuntu"]
         }]
     ]
 }
