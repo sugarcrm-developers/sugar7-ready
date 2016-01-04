@@ -100,7 +100,7 @@
         },
         {
             "type": "atlas",
-            "artifact": "{{user `atlas_username`}}/sugar7-php54",
+            "artifact": "{{user `atlas_username`}}/sugar7-php53",
             "artifact_type": "vagrant.box",
             "metadata": {
                 "provider": "vmware_desktop",
@@ -110,7 +110,7 @@
         },
         {
             "type": "atlas",
-            "artifact": "{{user `atlas_username`}}/sugar7-php54",
+            "artifact": "{{user `atlas_username`}}/sugar7-php53",
             "artifact_type": "vagrant.box",
             "metadata": {
                 "provider": "virtualbox",
