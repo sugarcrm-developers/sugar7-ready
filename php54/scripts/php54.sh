@@ -21,7 +21,13 @@ echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee
 apt-get -y update
 
 # Install Apache+php54 stack
-apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-apc php5 apache2 php5-curl php5-dev php5-xdebug
+apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-pear php-apc php5 apache2 php5-curl php5-dev php5-xdebug
+
+# Install and enable JSMIN extension
+pecl install jsmin-1.1.0
+echo "extension=jsmin.so" > /etc/php5/mods-available/jsmin.ini
+php5enmod jsmin
+
 
 #Install Elasticsearch and Java
 
