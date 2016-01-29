@@ -48,6 +48,10 @@ sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/apache2/php.ini
 # Update cli php.ini for cron
 sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
 
+# Adjust APC settings to more appropriate values for Sugar
+echo "apc.shm_size=378M" >> /etc/php5/mods-available/apc.ini
+echo "apc.max_file_size=10M" >> /etc/php5/mods-available/apc.ini
+
 
 
 
