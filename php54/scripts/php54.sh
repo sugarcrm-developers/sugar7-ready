@@ -9,7 +9,7 @@ apt-get -y update
 echo "mysql-server-5.5 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.5 mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get -y install python-software-properties perl curl zip vim 
+apt-get -y install python-software-properties perl curl zip vim
 
 # Load Java, php5, and Elasticsearch repos
 add-apt-repository ppa:ondrej/php5-oldstable
@@ -21,7 +21,7 @@ echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee
 apt-get -y update
 
 # Install Apache+php54 stack
-apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-pear php-apc php5 apache2 php5-curl php5-dev php5-xdebug
+apt-get -y install mysql-server php5-mysql php5-curl php5-gd php5-imap libphp-pclzip php-pear php-apc php5 apache2 php5-curl php5-dev php5-xdebug php5-mcrypt
 
 # Install and enable JSMIN extension
 pecl install jsmin-1.1.0
@@ -52,7 +52,3 @@ sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php5/cli/php.ini
 # Adjust APC settings to more appropriate values for Sugar
 echo "apc.shm_size=378M" >> /etc/php5/mods-available/apc.ini
 echo "apc.max_file_size=10M" >> /etc/php5/mods-available/apc.ini
-
-
-
-
