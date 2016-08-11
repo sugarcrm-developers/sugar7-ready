@@ -55,7 +55,10 @@ echo "apc.max_file_size=10M" >> /etc/php5/mods-available/apc.ini
 
 # Install node.js support
 wget -qO- https://deb.nodesource.com/setup_4.x | bash -
-apt-get install nodejs
+
+apt-get -y update
+
+apt-get -y install nodejs
 
 # Install grunt-cli support
 npm install -g grunt-cli
