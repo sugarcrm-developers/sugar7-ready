@@ -9,7 +9,7 @@ apt-get -y update
 echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
 
-apt-get -y install python-software-properties perl curl zip vim
+apt-get -y install software-properties-common python-software-properties perl curl zip vim
 
 # Load Java, PHP5.6, and Elasticsearch repos
 add-apt-repository ppa:ondrej/php -y
@@ -37,6 +37,7 @@ ln -s /etc/php/5.6/mods-available/jsmin.ini /etc/php/5.6/cli/conf.d/20-jsmin.ini
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 #Install Java 8, elasticsearch 1.4, then run it as a service
 apt-get -y install oracle-java8-installer
+apt-get -y oracle-java8-set-default
 apt-get -y install elasticsearch
 echo "Setting up Elasticsearch as a service"
 update-rc.d elasticsearch defaults 95 10

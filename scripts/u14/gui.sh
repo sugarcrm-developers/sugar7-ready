@@ -2,7 +2,8 @@
 
 # Install Ubuntu Desktop if not using Vagrant
 if [[ $PACKER_BUILD_NAME != vagrant* ]]; then
-	aptitude install -y ubuntu-desktop
+    apt-get -y update
+	apt-get -y install lubuntu-desktop
 
 	# Customize the message of the day
 	echo 'Sugar 7 Development Environment (Desktop)' > /etc/motd
