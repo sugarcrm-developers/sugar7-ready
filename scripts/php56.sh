@@ -16,14 +16,14 @@ add-apt-repository ppa:ondrej/php -y
 add-apt-repository ppa:webupd8team/java -y
 wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
 
-echo "deb http://packages.elastic.co/elasticsearch/1.4/debian stable main" | tee -a /etc/apt/sources.list
+echo "deb http://packages.elastic.co/elasticsearch/1.7/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-1.7.list
 
 apt-get -y update
 
 # Install Apache+php54 stack
 apt-get -y install mysql-server-5.6 php5.6-mysql php5.6-curl php5.6-gd php5.6-imap php5.6-mbstring php5.6-bcmath php5.6-zip php5.6-xml libphp-pclzip php-pear php5.6 apache2 php5.6-curl php5.6-dev php5.6-xdebug php5.6-mcrypt
 
-apt-get -y remove php7.0-cli
+apt-get -y remove php7*
 
 # Install and enable JSMIN extension
 pecl install jsmin-1.1.0
