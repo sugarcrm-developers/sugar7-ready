@@ -6,8 +6,8 @@ apt-get -y update
 # You can install anything you need here.
 
 # MySQL default username and password is "root"
-echo "mysql-server-5.6 mysql-server/root_password password root" | debconf-set-selections
-echo "mysql-server-5.6 mysql-server/root_password_again password root" | debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password password root" | debconf-set-selections
+echo "mysql-server-5.7 mysql-server/root_password_again password root" | debconf-set-selections
 
 apt-get -y install software-properties-common python-software-properties perl curl zip vim
 
@@ -21,7 +21,7 @@ echo "deb http://packages.elastic.co/elasticsearch/1.7/debian stable main" | sud
 apt-get -y update
 
 # Install Apache+php54 stack
-apt-get -y install mysql-server-5.6 php5.6-mysql php5.6-curl php5.6-gd php5.6-imap php5.6-mbstring php5.6-bcmath php5.6-zip php5.6-xml libphp-pclzip php-pear php5.6 apache2 php5.6-curl php5.6-dev php5.6-xdebug php5.6-mcrypt
+apt-get -y install mysql-server-5.7 php5.6-mysql php5.6-curl php5.6-gd php5.6-imap php5.6-mbstring php5.6-bcmath php5.6-zip php5.6-xml libphp-pclzip php-pear php5.6 apache2 php5.6-curl php5.6-dev php5.6-xdebug php5.6-mcrypt
 
 apt-get -y remove php7*
 
