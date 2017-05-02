@@ -1,9 +1,10 @@
 #!/bin/bash
 
 # Bail if we are not running inside VirtualBox.
-if [[ `facter virtual` != "virtualbox" ]]; then
+if [[ `dmidecode -s system-product-name` != "VirtualBox" ]]; then
     exit 0
 fi
+
 
 mkdir -p /mnt/virtualbox
 mount -o loop $HOME/VBoxGuest*.iso /mnt/virtualbox

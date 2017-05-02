@@ -23,7 +23,7 @@ apt-get -y update
 # Install Apache+php54 stack
 apt-get -y install mysql-server-5.6 php5.6-mysql php5.6-curl php5.6-gd php5.6-imap php5.6-mbstring php5.6-bcmath php5.6-zip php5.6-xml libphp-pclzip php-pear php5.6 apache2 php5.6-curl php5.6-dev php5.6-xdebug php5.6-mcrypt
 
-apt-get -y remove php7*
+apt-get -y remove php7.0-cli php7.1-cli
 
 # Install and enable JSMIN extension
 pecl install jsmin-1.1.0
