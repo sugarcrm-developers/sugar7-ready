@@ -1,33 +1,30 @@
 {
 
-    "provisioners": [
-        {
-            "type": "shell",
-            "scripts": [
-                "scripts/base.sh",
-                "scripts/u16/gui.sh",
-                "scripts/php71.sh",
-                "scripts/u16/apache24.sh",
-                "scripts/virtualbox.sh",
-                "scripts/vmware.sh",
-                "scripts/vagrant.sh",
-                "scripts/dev-tools.sh",
-                "scripts/u16/desktop.sh",
-                "scripts/cleanup.sh",
-                "scripts/zerodisk.sh"
-            ],
-            "override": {
-                "sugar7-php71-ubuntu": {
-                    "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
-                },
-                "vagrant-php71-vbox": {
-                    "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
-                }
+    "provisioners": [{
+        "type": "shell",
+        "scripts": [
+            "scripts/base.sh",
+            "scripts/u16/gui.sh",
+            "scripts/php71.sh",
+            "scripts/u16/apache24.sh",
+            "scripts/virtualbox.sh",
+            "scripts/vmware.sh",
+            "scripts/vagrant.sh",
+            "scripts/dev-tools.sh",
+            "scripts/u16/desktop.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+        ],
+        "override": {
+            "sugar7-php71-ubuntu": {
+                "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
+            },
+            "vagrant-php71-vbox": {
+                "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
             }
         }
-    ],
-    "builders": [
-        {
+    }],
+    "builders": [{
             "name": "sugar7-php71-ubuntu",
             "type": "virtualbox-iso",
             "boot_command": [
@@ -69,14 +66,12 @@
             "ssh_port": 22,
             "ssh_wait_timeout": "10000s",
             "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
-            "guest_additions_url": "http://download.virtualbox.org/virtualbox/5.0.26/VBoxGuestAdditions_5.0.26.iso",
-            "guest_additions_sha256": "7458ee5a7121a7d243fd6a7528ba427945d9120c5efc7cd75b3951fb01f09c59",
             "virtualbox_version_file": ".vbox_version",
-              "vboxmanage": [
+            "vboxmanage": [
                 ["modifyvm", "{{.Name}}", "--memory", "4096"],
                 ["modifyvm", "{{.Name}}", "--cpus", "2"],
                 ["modifyvm", "{{.Name}}", "--vram", "32"]
-              ]
+            ]
         },
         {
             "name": "vagrant-php71-vbox",
@@ -120,23 +115,27 @@
             "ssh_port": 22,
             "ssh_wait_timeout": "10000s",
             "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
-            "guest_additions_url": "http://download.virtualbox.org/virtualbox/5.0.26/VBoxGuestAdditions_5.0.26.iso",
-            "guest_additions_sha256": "7458ee5a7121a7d243fd6a7528ba427945d9120c5efc7cd75b3951fb01f09c59",
-            "virtualbox_version_file": ".vbox_version"
+            "virtualbox_version_file": ".vbox_version",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "1024"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"],
+                ["modifyvm", "{{.Name}}", "--vram", "32"]
+            ]
         }
     ],
     "post-processors": [
         [{
-            "output":"sugar7-php71-{{.Provider}}.box",
-            "type": "vagrant",
-            "vagrantfile_template": "vagrant/u16.template",
-            "keep_input_artifact": false,
-            "except" : ["sugar7-php71-ubuntu"]
-        },
-        {
-            "type": "compress",
-            "output": "{{.BuildName}}.zip",
-            "only" : ["sugar7-php71-ubuntu"]
-        }]
+                "output": "sugar7-php71-{{.Provider}}.box",
+                "type": "vagrant",
+                "vagrantfile_template": "vagrant/u16.template",
+                "keep_input_artifact": false,
+                "except": ["sugar7-php71-ubuntu"]
+            },
+            {
+                "type": "compress",
+                "output": "{{.BuildName}}.zip",
+                "only": ["sugar7-php71-ubuntu"]
+            }
+        ]
     ]
 }
