@@ -5,6 +5,7 @@
         "scripts": [
             "scripts/base.sh",
             "scripts/u16/gui.sh",
+            "scripts/elasticsearch17.sh",
             "scripts/php71.sh",
             "scripts/u16/apache24.sh",
             "scripts/virtualbox.sh",

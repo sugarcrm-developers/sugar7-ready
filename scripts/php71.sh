@@ -14,15 +14,6 @@ apt-get -y update
 echo "mysql-server-5.7 mysql-server/root_password password root" | debconf-set-selections
 echo "mysql-server-5.7 mysql-server/root_password_again password root" | debconf-set-selections
 
-
-# Load Java and Elasticsearch repos
-add-apt-repository ppa:webupd8team/java
-wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | apt-key add -
-
-echo "deb http://packages.elastic.co/elasticsearch/1.7/debian stable main" | sudo tee -a /etc/apt/sources.list.d/elasticsearch-1.7.list
-
-apt-get -y update
-
 # Install Apache+php stack
 apt-get -y install mysql-server-5.7 apache2
 
@@ -32,17 +23,6 @@ apt-get -y install php7.1-cli
 
 #install pear
 apt-get -y install php-pear
-
-#Install Elasticsearch and Java
-
-# Auto-accept oracle license
-echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-#Install Java 8, elasticsearch 1.7, then run it as a service
-apt-get -y install oracle-java8-installer
-apt-get -y oracle-java8-set-default
-apt-get -y install elasticsearch
-echo "Setting up Elasticsearch as a service"
-systemctl enable elasticsearch.service
 
 # Update apache2 php.ini with appropriate Sugar values
 sed -i 's/memory_limit =.*/memory_limit = 512M/' /etc/php/7.1/apache2/php.ini
@@ -63,3 +43,8 @@ DELIM
 # Update cli php.ini for cron
 sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php/7.1/cli/php.ini
 
+# Update MySQL 5.7 defaults to remove ONLY_FULL_GROUP_BY option that causes problems with Sugar's Reports module
+cat >> /etc/mysql/mysql.conf.d/sql_mode.cnf <<DELIM
+[mysqld]
+sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+DELIM
