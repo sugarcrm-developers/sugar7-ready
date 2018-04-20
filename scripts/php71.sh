@@ -17,7 +17,7 @@ echo "mysql-server-5.7 mysql-server/root_password_again password root" | debconf
 # Install Apache+php stack
 apt-get -y install mysql-server-5.7 apache2
 
-apt-get -y install libapache2-mod-php7.1 php7.1-mysql php7.1-curl php7.1-gd php7.1-imap php7.1-mbstring php7.1-bcmath php7.1-zip php7.1-xml libphp-pclzip php7.1 php7.1-curl php7.1-dev php7.1-xdebug php7.1-mcrypt
+apt-get -y install libapache2-mod-php7.1 php7.1-mysql php7.1-curl php7.1-gd php7.1-imap php7.1-mbstring php7.1-bcmath php7.1-zip php7.1-xml libphp-pclzip php7.1 php7.1-curl php7.1-dev php7.1-xdebug php7.1-mcrypt php7.1-gmp php7.1-ldap php7.1-soap
 
 apt-get -y install php7.1-cli
 
@@ -47,4 +47,5 @@ sed -i 's/;date.timezone =/date.timezone = UTC/' /etc/php/7.1/cli/php.ini
 cat >> /etc/mysql/mysql.conf.d/sql_mode.cnf <<DELIM
 [mysqld]
 sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+optimizer-switch=block_nested_loop=off
 DELIM
