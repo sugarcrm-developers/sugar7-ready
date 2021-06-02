@@ -1,0 +1,142 @@
+{
+
+    "provisioners": [{
+        "type": "shell",
+        "scripts": [
+            "scripts/base.sh",
+            "scripts/u16/gui.sh",
+            "scripts/elasticsearch79.sh",
+            "scripts/php74-mysql8.sh",
+            "scripts/u16/apache24.sh",
+            "scripts/virtualbox.sh",
+            "scripts/vmware.sh",
+            "scripts/vagrant.sh",
+            "scripts/dev-tools.sh",
+            "scripts/u16/desktop.sh",
+            "scripts/cleanup.sh",
+            "scripts/zerodisk.sh"
+        ],
+        "override": {
+            "sugar7-php74es79-ubuntu": {
+                "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
+            },
+            "vagrant-php74es79-vbox": {
+                "execute_command": "echo 'vagrant'|{{ .Vars }} sudo -E -S bash '{{.Path}}'"
+            }
+        }
+    }],
+    "builders": [{
+            "name": "sugar7-php74es79-ubuntu",
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_domain=vm<wait>",
+                " netcfg/get_hostname=vagrant<wait>",
+                " grub-installer/bootdev=/dev/sda<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-u16.cfg",
+                " -- <wait>",
+                "<enter><wait>"
+            ],
+            "headless": true,
+            "boot_wait": "10s",
+            "disk_size": 40960,
+            "guest_os_type": "Ubuntu_64",
+            "http_directory": "http",
+            "iso_checksum": "b23488689e16cad7a269eb2d3a3bf725d3457ee6b0868e00c8762d3816e25848",
+            "iso_checksum_type": "sha256",
+            "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.7-server-amd64.iso",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
+            "virtualbox_version_file": ".vbox_version",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "4096"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"],
+                ["modifyvm", "{{.Name}}", "--vram", "32"]
+            ]
+        },
+        {
+            "name": "vagrant-php74es79-vbox",
+            "type": "virtualbox-iso",
+            "boot_command": [
+                "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+                "/install/vmlinuz<wait>",
+                " auto<wait>",
+                " console-setup/ask_detect=false<wait>",
+                " console-setup/layoutcode=us<wait>",
+                " console-setup/modelcode=pc105<wait>",
+                " debconf/frontend=noninteractive<wait>",
+                " debian-installer=en_US<wait>",
+                " fb=false<wait>",
+                " initrd=/install/initrd.gz<wait>",
+                " kbd-chooser/method=us<wait>",
+                " keyboard-configuration/layout=USA<wait>",
+                " keyboard-configuration/variant=USA<wait>",
+                " locale=en_US<wait>",
+                " netcfg/get_domain=vm<wait>",
+                " netcfg/get_hostname=vagrant<wait>",
+                " grub-installer/bootdev=/dev/sda<wait>",
+                " noapic<wait>",
+                " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed-u16.cfg",
+                " -- <wait>",
+                "<enter><wait>"
+            ],
+            "headless": true,
+            "boot_wait": "10s",
+            "disk_size": 20480,
+            "guest_os_type": "Ubuntu_64",
+            "http_directory": "http",
+            "iso_checksum": "b23488689e16cad7a269eb2d3a3bf725d3457ee6b0868e00c8762d3816e25848",
+            "iso_checksum_type": "sha256",
+            "iso_url": "http://releases.ubuntu.com/xenial/ubuntu-16.04.7-server-amd64.iso",
+            "ssh_username": "vagrant",
+            "ssh_password": "vagrant",
+            "ssh_port": 22,
+            "ssh_wait_timeout": "10000s",
+            "shutdown_command": "echo '/sbin/halt -h -p' > shutdown.sh; echo 'vagrant'|sudo -S bash 'shutdown.sh'",
+            "virtualbox_version_file": ".vbox_version",
+            "vboxmanage": [
+                ["modifyvm", "{{.Name}}", "--memory", "1024"],
+                ["modifyvm", "{{.Name}}", "--cpus", "2"],
+                ["modifyvm", "{{.Name}}", "--vram", "32"]
+            ]
+        }
+    ],
+    "post-processors": [
+        [{
+                "output": "sugar7-php74es79-{{.Provider}}.box",
+                "type": "vagrant",
+                "vagrantfile_template": "vagrant/u16.template",
+                "keep_input_artifact": false,
+                "except": ["sugar7-php74es79-ubuntu"]
+            },
+            {
+                "type": "compress",
+                "output": "{{.BuildName}}.zip",
+                "only": ["sugar7-php74es79-ubuntu"]
+            }
+        ]
+    ]
+}

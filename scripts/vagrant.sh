@@ -14,6 +14,6 @@ if [[ $PACKER_BUILD_NAME == vagrant* ]]; then
 	chown -R vagrant /home/vagrant/.ssh
 
 	# Customize the message of the day
-	echo 'Sugar 7 Development Environment' > /etc/motd
+	echo 'Sugar Development Environment' > /etc/motd
 
 fi
