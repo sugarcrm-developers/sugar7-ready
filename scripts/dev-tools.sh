@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Install node.js support
-wget -qO- https://deb.nodesource.com/setup_4.x | bash -
-apt-get -y install nodejs
+wget -qO- https://deb.nodesource.com/setup_10.x | bash -
+apt-get -y install nodejs npm
 
 # Install grunt-cli support
 npm install -g grunt-cli
