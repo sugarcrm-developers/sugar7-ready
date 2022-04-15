@@ -85,3 +85,37 @@ If you want to build the PHP 8.0 stack, then it is as easy as running:
 ```shell
 packer build local-php80-es7163.json
 ```
+
+## Troubleshoot
+### Vagrant was unable to mount VirtualBox shared folders
+If you run into an error like this:
+```
+==> default: Machine booted and ready!
+==> default: Checking for guest additions in VM...
+  default: The guest additions on this VM do not match the installed version of
+  default: VirtualBox! In most cases this is fine, but in rare cases it can
+  default: prevent things such as shared folders from working properly. If you see
+  default: shared folder errors, please make sure the guest additions within the
+  default: virtual machine match the version of VirtualBox you have installed on
+  default: your host and reload your VM.
+  default:
+  default: Guest Additions Version: 5.2.8_KernelUbuntu r120774
+  default: VirtualBox Version: 6.1
+==> default: Mounting shared folders...
+  default: /vagrant => /Users/mmarum-mac2/temp/SugarEnt-Full-12.0.0
+Vagrant was unable to mount VirtualBox shared folders. This is usually
+because the filesystem "vboxsf" is not available. This filesystem is
+made available via the VirtualBox Guest Additions and kernel module.
+Please verify that these guest additions are properly installed in the
+guest. This is not a bug in Vagrant and is usually caused by a faulty
+Vagrant box. For context, the command attempted was:
+mount -t vboxsf -o uid=1000,gid=1000,_netdev vagrant /vagrant
+The error output from the command was:
+mount: /vagrant: wrong fs type, bad option, bad superblock on vagrant, missing codepage or helper program, or other error.
+```
+
+You need to update your `vagrant-vbguest` plugin in your host:
+```
+vagrant plugin install vagrant-vbguest
+vagrant plugin update vagrant-vbguest
+```
